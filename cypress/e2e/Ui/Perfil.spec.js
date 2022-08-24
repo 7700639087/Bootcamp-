@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-const faker = require ('faker-br')
+const faker = require('faker-br')
 
 describe('US0003 - Funcionalidade: Criar perfil', () => {
 
@@ -9,22 +9,24 @@ describe('US0003 - Funcionalidade: Criar perfil', () => {
     });
 
     // Teste de cadastro do perfil somente com os campos obrigatórios preenchidos
-    it('Campos obrigatórios de cadastro de perfil, valida Status e Conhecimentos', () => {    
+    it('Campos obrigatórios de cadastro de perfil, valida Status e Conhecimentos', () => {
         var varName = faker.name.firstName()
         var varEmail = faker.internet.email()
         var varPassword = faker.internet.password()
-        cy.cadastrar(varName, varEmail,varPassword,varPassword)
+        cy.cadastrar(varName, varEmail, varPassword, varPassword)
         cy.get('[data-test="dashboard-welcome"]').should('contain', 'Bem-vindo')
         cy.get('[data-test="dashboard-createProfile"]').click()
-        cy.get('.large').should('contain','Crie Seu Perfil')
+        cy.get('.large').should('contain', 'Crie Seu Perfil')
         cy.get('#mui-component-select-status').click()
 
         cy.get('.MuiMenu-list li')
             .then(($li) => {
-            const campos = $li.toArray()
-            return Cypress._.sample(campos)
-        }).click()
-        cy.get('[data-test="profile-skills"] > .MuiInputBase-root > .MuiInputBase-input').type(faker.random.word() +', ' + faker.random.word() +', ' + faker.random.word() +', ' + faker.random.word())
+                const campos = $li.toArray()
+                return Cypress._.sample(campos)
+            }).click()
+
+        cy.get('[data-test="profile-skills"] > .MuiInputBase-root > .MuiInputBase-input').type(faker.random.word()
+            + ', ' + faker.random.word() + ', ' + faker.random.word() + ', ' + faker.random.word())
         cy.get('[data-test="profile-submit"]').click()
         cy.get('[data-test="alert"]').should('contain', 'Perfil Criado')
         cy.get('.large').should('contain', 'Dashboard')
@@ -43,20 +45,20 @@ describe('US0003 - Funcionalidade: Criar perfil', () => {
     });
 
     // Preenchimento de todos os campos de cadastro de perfil
-    it('Dados de cadastro do Perfil', () => {    
+    it('Dados de cadastro do Perfil', () => {
         var varName = faker.name.firstName()
         var varEmail = faker.internet.email()
         var varPassword = faker.internet.password()
-        cy.cadastrar(varName, varEmail,varPassword,varPassword)
+        cy.cadastrar(varName, varEmail, varPassword, varPassword)
         cy.get('[data-test="dashboard-welcome"]').should('contain', 'Bem-vindo')
         cy.get('[data-test="dashboard-createProfile"]').click()
-        cy.get('.large').should('contain','Crie Seu Perfil')
+        cy.get('.large').should('contain', 'Crie Seu Perfil')
         cy.get('#mui-component-select-status').click()
-            cy.contains('Gerente de Testes').click()
+        cy.contains('Gerente de Testes').click()
         cy.get('[data-test="profile-company"] > .MuiInputBase-root > .MuiInputBase-input').type(faker.company.companyName())
         cy.get('[data-test="profile-webSite"] > .MuiInputBase-root > .MuiInputBase-input').type(faker.internet.url())
-        cy.get('[data-test="profile-location"] > .MuiInputBase-root > .MuiInputBase-input').type(faker.address.city() + ' - ' + faker.address.state() )
-        cy.get('[data-test="profile-skills"] > .MuiInputBase-root > .MuiInputBase-input').type(faker.random.word() +', ' + faker.random.word() +', ' + faker.random.word() +', ' + faker.random.word())
+        cy.get('[data-test="profile-location"] > .MuiInputBase-root > .MuiInputBase-input').type(faker.address.city() + ' - ' + faker.address.state())
+        cy.get('[data-test="profile-skills"] > .MuiInputBase-root > .MuiInputBase-input').type(faker.random.word() + ', ' + faker.random.word() + ', ' + faker.random.word() + ', ' + faker.random.word())
         cy.get('[data-test="profile-gitHub"] > .MuiInputBase-root > .MuiInputBase-input').type('www.github.com')
         cy.get('[rows="1"]').type(faker.lorem.paragraphs())
         cy.get('[data-test="profile-socials"]').click()
@@ -66,7 +68,7 @@ describe('US0003 - Funcionalidade: Criar perfil', () => {
         cy.get('[data-test="profile-linkedin"] > .MuiInputBase-root > .MuiInputBase-input').type(faker.internet.url())
         cy.get('[data-test="profile-instagram"] > .MuiInputBase-root > .MuiInputBase-input').type(faker.internet.url())
         cy.get('[data-test="profile-medium"] > .MuiInputBase-root > .MuiInputBase-input').type(faker.internet.url())
-        cy.get('[data-test="profile-submit"]').click() 
+        cy.get('[data-test="profile-submit"]').click()
         cy.get('[data-test="alert"]').should('contain', 'Perfil Criado')
         cy.get('.large').should('contain', 'Dashboard')
         cy.get('[data-test="dashboard-editProfile"]').should('contain', 'Editar Perfil')
@@ -82,33 +84,33 @@ describe('US0003 - Funcionalidade: Criar perfil', () => {
         cy.get(':nth-child(8) > thead > tr > :nth-child(3)').should('contain', 'Período')
         cy.get('[data-test="dashboard-deleteProfile"]').should('contain', 'Excluir Conta')
     });
- 
+
     // Teste de cadastro do perfil com campos vazios
-    it('Campos obrigatórios de cadastro de perfil', () => {    
+    it('Campos obrigatórios de cadastro de perfil', () => {
         var varName = faker.name.firstName()
         var varEmail = faker.internet.email()
         var varPassword = faker.internet.password()
-        cy.cadastrar(varName, varEmail,varPassword,varPassword)
+        cy.cadastrar(varName, varEmail, varPassword, varPassword)
         cy.get('[data-test="dashboard-welcome"]').should('contain', 'Bem-vindo')
         cy.get('[data-test="dashboard-createProfile"]').click()
-        cy.get('.large').should('contain','Crie Seu Perfil')
+        cy.get('.large').should('contain', 'Crie Seu Perfil')
         cy.get('[data-test="profile-submit"]').click()
         cy.get(':nth-child(1) > .form-text').should('contain', 'Nos dê uma ideia de onde você está em sua carreira')
-        cy.get(':nth-child(5) > .form-text').should('contain', 'Use vírgula para separar os valores por favor (ex. Testes de Integração, Automação de Testes, Cypress, Testes Manuais)') 
-    });    
-    
+        cy.get(':nth-child(5) > .form-text').should('contain', 'Use vírgula para separar os valores por favor (ex. Testes de Integração, Automação de Testes, Cypress, Testes Manuais)')
+    });
+
     // Cadastro de perfil - Cancelar
-    it('Cancelar cadastro de perfil', () => {    
+    it('Cancelar cadastro de perfil', () => {
         var varName = faker.name.firstName()
         var varEmail = faker.internet.email()
         var varPassword = faker.internet.password()
-        cy.cadastrar(varName, varEmail,varPassword,varPassword)
+        cy.cadastrar(varName, varEmail, varPassword, varPassword)
         cy.get('[data-test="dashboard-welcome"]').should('contain', 'Bem-vindo')
         cy.get('[data-test="dashboard-createProfile"]').click()
-        cy.get('.large').should('contain','Crie Seu Perfil')
+        cy.get('.large').should('contain', 'Crie Seu Perfil')
         cy.get('[data-test="profile-dashboard"]').click()
         cy.get('.large').should('contain', 'Dashboard')
         cy.get('[data-test="dashboard-noProfile"]').should('contain', 'Você não tem um perfil criado, por favor adicione algumas informações')
         cy.get('[data-test="dashboard-createProfile"]').should('contain', 'Criar Perfil')
-   });
+    });
 });
